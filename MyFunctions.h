@@ -22,14 +22,17 @@ Plane calculate_plane(const Tringle3D& tringle){
     return Plane(A, B, C, D);
 }
 
-bool coinciding_planes(const Plane& plane1, const Plane& plane2){
-    return(plane1.A == plane2.A && plane1.B == plane2.B && plane1.C == plane2.C && plane1.D == plane2.D);
+bool coinciding_planes(const Plane& plane, const Tringle3D& tringle){
+    if(fabs(plane.A * tringle.pt1.x + plane.B * tringle.pt1.y + plane.C * tringle.pt1.z + plane.D) < 0.0001 &&
+       fabs(plane.A * tringle.pt2.x + plane.B * tringle.pt2.y + plane.C * tringle.pt2.z + plane.D) < 0.0001 &&
+       fabs(plane.A * tringle.pt3.x + plane.B * tringle.pt3.y + plane.C * tringle.pt3.z + plane.D) < 0.0001) {
+        return true;
+    }
+
+    return false;
 }
 
 bool plane_parallel(const Plane& plane1, const Plane& plane2){
-    if (coinciding_planes(plane1, plane2)){
-        return false;
-    }
 
     double scalar_product = plane1.A * plane2.A + plane1.B * plane2.B + plane1.C * plane2.C;
     double corner = std::acos(scalar_product);
@@ -95,6 +98,7 @@ bool nested_segments(const Tringle3D& tringle1, const Tringle3D& tringle2) {
 
     for (int i = 0; i < sides1.size(); i++) {
         for (int j = 0; j < sides2.size(); j++){
+
             bool flag = checking_nested_segments(sides1[i], sides2[j]);
             if (flag) {
                 return flag;
@@ -115,13 +119,39 @@ bool checking_parallelism_of_segments(const Straight& side1, const Straight& sid
     double scalar_product = side1.guide_vector.x * side2.guide_vector.x + side1.guide_vector.y * side2.guide_vector.y
                             + side1.guide_vector.z * side2.guide_vector.z;
 
-    double corner = std::acos(scalar_product / (length1 * length2));
+    double cos_corner = scalar_product / (length1 * length2);
+    if (fabs(fabs(cos_corner) - 1) < 0.0001) {
+        cos_corner = 1;
+    }
+    double corner = std::acos(cos_corner);
 
     return (corner == 0.0 || corner == M_PI);
 }
 
 Point3D intersection_straights(const Straight& side1, const Straight& side2) {
-    double t = ((side2.pt.x - side1.pt.x) / side1.guide_vector.x);
+    double t = 0;
+
+    if (side1.guide_vector.x * side2.guide_vector.y != side1.guide_vector.y * side2.guide_vector.x) {
+         double x = side2.pt.x - side1.pt.x;
+         double y = side2.pt.y - side1.pt.y;
+         double det = side1.guide_vector.x * side2.guide_vector.y - side1.guide_vector.y * side2.guide_vector.x;
+
+         t = (side2.guide_vector.y * x - side1.guide_vector.y * y) / det;
+    }
+    else if (side1.guide_vector.x * side2.guide_vector.z != side1.guide_vector.z * side2.guide_vector.x) {
+        double x = side2.pt.x - side1.pt.x;
+        double z = side2.pt.z - side1.pt.z;
+        double det = side1.guide_vector.x * side2.guide_vector.z - side1.guide_vector.z * side2.guide_vector.x;
+
+        t = (side2.guide_vector.z * x - side1.guide_vector.z * z) / det;
+    }
+    else {
+        double y = side2.pt.y - side1.pt.y;
+        double z = side2.pt.z - side1.pt.z;
+        double det = side1.guide_vector.y * side2.guide_vector.z - side1.guide_vector.z * side2.guide_vector.y;
+
+        t = (side2.guide_vector.z * y - side1.guide_vector.z * z) / det;
+    }
 
     Point3D intersection(side1.pt.x + t * side1.guide_vector.x,
                          side1.pt.y + t * side1.guide_vector.y,
@@ -151,7 +181,7 @@ bool intersection_check_of_sides(const Straight& side1, const Point3D& intersect
 bool intersection_of_sides(const Tringle3D& tringle1, const Tringle3D& tringle2){
     Straight X1Y1(tringle1.pt1, calculate_guide_vector(tringle1.pt1, tringle1.pt2 ));
     Straight X1Z1(tringle1.pt1, calculate_guide_vector(tringle1.pt1, tringle1.pt3 ));
-    Straight Y1Z1(tringle1.pt1, calculate_guide_vector(tringle1.pt2, tringle1.pt3 ));
+    Straight Y1Z1(tringle1.pt2, calculate_guide_vector(tringle1.pt2, tringle1.pt3 ));
 
     std::vector<Straight> sides1;
     sides1.push_back(X1Y1);
@@ -160,7 +190,7 @@ bool intersection_of_sides(const Tringle3D& tringle1, const Tringle3D& tringle2)
 
     Straight X2Y2(tringle2.pt1, calculate_guide_vector(tringle2.pt1, tringle2.pt2 ));
     Straight X2Z2(tringle2.pt1, calculate_guide_vector(tringle2.pt1, tringle2.pt3 ));
-    Straight Y2Z2(tringle2.pt1, calculate_guide_vector(tringle2.pt2, tringle2.pt3 ));
+    Straight Y2Z2(tringle2.pt2, calculate_guide_vector(tringle2.pt2, tringle2.pt3 ));
 
     std:: vector<Straight> sides2;
     sides2.push_back(X2Y2);
@@ -173,7 +203,7 @@ bool intersection_of_sides(const Tringle3D& tringle1, const Tringle3D& tringle2)
 
             if (!flag){
 
-                Point3D intersection = intersection_straights(sides1[i], sides2[j]);
+                Point3D intersection = intersection_straights(sides2[j], sides2[i]);
                 bool flag1 = intersection_check_of_sides(sides1[i], intersection);
                 bool flag2 = intersection_check_of_sides(sides2[j], intersection);
 
@@ -191,19 +221,43 @@ Point3D crossProduct(const Point3D& a, const Point3D& b) {
     return Point3D(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x);
 }
 
-double orientedVolume(const Point3D& a, const Point3D& b, const Point3D& c, const Point3D& point) {
-    Point3D v1(b.x - a.x, b.y - a.y, b.z - a.z);
-    Point3D v2(c.x - a.x, c.y - a.y, c.z - a.z);
-    Point3D v3(point.x - a.x, point.y - a.y, point.z - a.z);
+Point3D orientedArea(const Point3D& a, const Point3D& b, const Point3D& point) {
+    Point3D v1(a.x - point.x, a.y - point.y, a.z - point.z);
+    Point3D v2(b.x - point.x, b.y - point.y, b.z - point.z);
+    return crossProduct(v1, v2);
 
-    return v3.z * crossProduct(v1, v2).z;
+}
+int check_sign(const Point3D& normal1, const Point3D& normal2) {
+    double length1 = sqrt(normal1.x * normal1.x + normal1.y * normal1.y + normal1.z * normal1.z);
+    double length2 = sqrt(normal2.x * normal2.x + normal2.y * normal2.y + normal2.z * normal2.z);
+    double scalar_product = normal1.x * normal2.x + normal1.y * normal2.y + normal1.z * normal2.z;
+    if (length1 == 0 || length2 == 0){
+        return 0;
+    }
+    double corner = acos(scalar_product / (length2 * length1));
+
+    if (corner == 0) {
+        return 1;
+    }
+
+    if (corner == M_PI) {
+        return -1;
+    }
+
 }
 bool tringle_and_point(const Tringle3D& tringle, const Point3D& point){
-    double volume1 = orientedVolume(tringle.pt1, tringle.pt2, tringle.pt3, point);
-    double volume2 = orientedVolume(tringle.pt2, tringle.pt3, tringle.pt1, point);
-    double volume3 = orientedVolume(tringle.pt3, tringle.pt1, tringle.pt2, point);
+    Point3D area1 = orientedArea(tringle.pt1, tringle.pt2, point);
+    Point3D area2 = orientedArea(tringle.pt2, tringle.pt3, point);
+    Point3D area3 = orientedArea(tringle.pt3, tringle.pt1, point);
 
-    if ((volume1 >= 0 && volume2 >= 0 && volume3 >= 0) || (volume1 <= 0 && volume2 <= 0 && volume3 <= 0)){
+    Plane Alpha = calculate_plane(tringle);
+    Point3D normal(Alpha.A, Alpha.B, Alpha.C);
+
+    int sign1 = check_sign(area1, normal);
+    int sign2 = check_sign(area2, normal);
+    int sign3 = check_sign(area3, normal);
+
+    if ((sign1 == 1 && sign2 == 1 && sign3 == 1) || (sign1 == -1 && sign2 == -1 && sign3 == -1)){
         return true;
     }
     return false;
@@ -285,12 +339,7 @@ bool intersection_checking_tringles(const Tringle3D& tringle1, const Tringle3D& 
     Plane plane1 = calculate_plane(tringle1);
     Plane plane2 = calculate_plane(tringle2);
 
-    bool answer = plane_parallel(plane1, plane2);
-    if (answer){
-        return false;
-    }
-
-    answer = coinciding_planes(plane1, plane2);
+    bool answer = coinciding_planes(plane1, tringle2);
 
     if (answer){
         bool flag1 = nested_segments(tringle1, tringle2);
@@ -306,9 +355,12 @@ bool intersection_checking_tringles(const Tringle3D& tringle1, const Tringle3D& 
         if (flag3){
             return true;
         }
-
     }
     else {
+        answer = plane_parallel(plane1, plane2);
+        if (answer){
+            return false;
+        }
         Straight straight_intersection = find_for_straight_intersection_of_planes(plane1, plane2);
         bool flag = intersection_checking_straight_with_tringles(tringle1, tringle2, straight_intersection);
 

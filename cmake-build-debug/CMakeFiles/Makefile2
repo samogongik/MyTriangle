@@ -64,15 +64,32 @@ CMAKE_BINARY_DIR = "/mnt/c/Clion Projects/triangles/cmake-build-debug"
 
 # The main recursive "all" target.
 all: CMakeFiles/triangles.dir/all
+all: google_tests/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
-preinstall:
+preinstall: google_tests/preinstall
 .PHONY : preinstall
 
 # The main recursive "clean" target.
 clean: CMakeFiles/triangles.dir/clean
+clean: google_tests/clean
 .PHONY : clean
+
+#=============================================================================
+# Directory level rules for directory google_tests
+
+# Recursive "all" directory target.
+google_tests/all: google_tests/CMakeFiles/tester.dir/all
+.PHONY : google_tests/all
+
+# Recursive "preinstall" directory target.
+google_tests/preinstall:
+.PHONY : google_tests/preinstall
+
+# Recursive "clean" directory target.
+google_tests/clean: google_tests/CMakeFiles/tester.dir/clean
+.PHONY : google_tests/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/triangles.dir
@@ -81,7 +98,7 @@ clean: CMakeFiles/triangles.dir/clean
 CMakeFiles/triangles.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/triangles.dir/build.make CMakeFiles/triangles.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/triangles.dir/build.make CMakeFiles/triangles.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="/mnt/c/Clion Projects/triangles/cmake-build-debug/CMakeFiles" --progress-num=1,2 "Built target triangles"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="/mnt/c/Clion Projects/triangles/cmake-build-debug/CMakeFiles" --progress-num=3,4 "Built target triangles"
 .PHONY : CMakeFiles/triangles.dir/all
 
 # Build rule for subdir invocation for target.
@@ -99,6 +116,32 @@ triangles: CMakeFiles/triangles.dir/rule
 CMakeFiles/triangles.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/triangles.dir/build.make CMakeFiles/triangles.dir/clean
 .PHONY : CMakeFiles/triangles.dir/clean
+
+#=============================================================================
+# Target rules for target google_tests/CMakeFiles/tester.dir
+
+# All Build rule for target.
+google_tests/CMakeFiles/tester.dir/all:
+	$(MAKE) $(MAKESILENT) -f google_tests/CMakeFiles/tester.dir/build.make google_tests/CMakeFiles/tester.dir/depend
+	$(MAKE) $(MAKESILENT) -f google_tests/CMakeFiles/tester.dir/build.make google_tests/CMakeFiles/tester.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="/mnt/c/Clion Projects/triangles/cmake-build-debug/CMakeFiles" --progress-num=1,2 "Built target tester"
+.PHONY : google_tests/CMakeFiles/tester.dir/all
+
+# Build rule for subdir invocation for target.
+google_tests/CMakeFiles/tester.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start "/mnt/c/Clion Projects/triangles/cmake-build-debug/CMakeFiles" 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 google_tests/CMakeFiles/tester.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start "/mnt/c/Clion Projects/triangles/cmake-build-debug/CMakeFiles" 0
+.PHONY : google_tests/CMakeFiles/tester.dir/rule
+
+# Convenience name for target.
+tester: google_tests/CMakeFiles/tester.dir/rule
+.PHONY : tester
+
+# clean rule for target.
+google_tests/CMakeFiles/tester.dir/clean:
+	$(MAKE) $(MAKESILENT) -f google_tests/CMakeFiles/tester.dir/build.make google_tests/CMakeFiles/tester.dir/clean
+.PHONY : google_tests/CMakeFiles/tester.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

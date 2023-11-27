@@ -129,6 +129,19 @@ triangles/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/triangles.dir/build.make CMakeFiles/triangles.dir/build
 .PHONY : triangles/fast
 
+#=============================================================================
+# Target rules for targets named tester
+
+# Build rule for target.
+tester: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tester
+.PHONY : tester
+
+# fast build rule for target.
+tester/fast:
+	$(MAKE) $(MAKESILENT) -f google_tests/CMakeFiles/tester.dir/build.make google_tests/CMakeFiles/tester.dir/build
+.PHONY : tester/fast
+
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -161,6 +174,7 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... tester"
 	@echo "... triangles"
 	@echo "... main.o"
 	@echo "... main.i"
