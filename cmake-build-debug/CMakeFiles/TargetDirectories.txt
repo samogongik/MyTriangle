@@ -1,6 +1,0 @@
-/mnt/c/Clion Projects/triangles/cmake-build-debug/CMakeFiles/triangles.dir
-/mnt/c/Clion Projects/triangles/cmake-build-debug/CMakeFiles/edit_cache.dir
-/mnt/c/Clion Projects/triangles/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/mnt/c/Clion Projects/triangles/cmake-build-debug/google_tests/CMakeFiles/tester.dir
-/mnt/c/Clion Projects/triangles/cmake-build-debug/google_tests/CMakeFiles/edit_cache.dir
-/mnt/c/Clion Projects/triangles/cmake-build-debug/google_tests/CMakeFiles/rebuild_cache.dir
