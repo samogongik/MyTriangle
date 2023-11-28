@@ -22,10 +22,10 @@ public:
         for(int i = 0; i < node->tringles.size(); i++){
            bool flag = intersection_checking_tringles(tringle, node->tringles[i]);
            if (flag){
-               if (data.find(tringle.number) != data.end()){
+               if (data.find(tringle.number) == data.end()){
                    data[tringle.number] = tringle.number;
                }
-               if (data.find(node->tringles[i].number) != data.end()){
+               if (data.find(node->tringles[i].number) == data.end()){
                    data[node->tringles[i].number] = node->tringles[i].number;
                }
            }
@@ -41,7 +41,25 @@ public:
             createChild(node, index);
         }
 
-        insert(node->children[index], tringle, depth + 1);
+        if ((node->children[index]->min.x < tringle.pt1.x <node->children[index]-> max.x) &&
+            (node->children[index]->min.x < tringle.pt2.x < node->children[index]->max.x) &&
+            (node->children[index]->min.x < tringle.pt3.x < node->children[index]->max.x) &&
+
+            (node->children[index]->min.y < tringle.pt1.y < node->children[index]->max.y) &&
+            (node->children[index]->min.y < tringle.pt2.y < node->children[index]->max.y) &&
+            (node->children[index]->min.y < tringle.pt3.y < node->children[index]->max.y) &&
+
+            (node->children[index]->min.z < tringle.pt1.z < node->children[index]->max.z) &&
+            (node->children[index]->min.z < tringle.pt2.z < node->children[index]->max.z) &&
+            (node->children[index]->min.z < tringle.pt3.z < node->children[index]->max.y)) {
+
+            insert(node->children[index], tringle, depth + 1);
+        }
+        else {
+            node->tringles.push_back(tringle);
+            return;
+        }
+
     }
 
     int getOctant(OctreeNode* node, Tringle3D tringle){
@@ -70,6 +88,7 @@ public:
         else max.y = yMid;
         if (index & 4) min.z = zMid;
         else max.z = zMid;
+
 
         node->children[index] = new OctreeNode(min, max);
     }

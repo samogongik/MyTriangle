@@ -33,7 +33,7 @@ int main() {
     }
 
     Octree octree(min, max, 8);
-    for(int i = 1; i < amount; i++){
+    for(int i = 1; i <= amount; i++){
         octree.insert(tringles[i-1]);
     }
 

@@ -128,7 +128,7 @@ bool checking_parallelism_of_segments(const Straight& side1, const Straight& sid
     return (corner == 0.0 || corner == M_PI);
 }
 
-Point3D intersection_straights(const Straight& side1, const Straight& side2) {
+Point3D intersection_straights(const Straight& side2, const Straight& side1) {
     double t = 0;
 
     if (side1.guide_vector.x * side2.guide_vector.y != side1.guide_vector.y * side2.guide_vector.x) {
@@ -180,22 +180,23 @@ bool intersection_check_of_sides(const Straight& side1, const Point3D& intersect
 
 bool intersection_of_sides(const Tringle3D& tringle1, const Tringle3D& tringle2){
     Straight X1Y1(tringle1.pt1, calculate_guide_vector(tringle1.pt1, tringle1.pt2 ));
-    Straight X1Z1(tringle1.pt1, calculate_guide_vector(tringle1.pt1, tringle1.pt3 ));
     Straight Y1Z1(tringle1.pt2, calculate_guide_vector(tringle1.pt2, tringle1.pt3 ));
+    Straight Z1X1(tringle1.pt3, calculate_guide_vector(tringle1.pt3, tringle1.pt1 ));
 
     std::vector<Straight> sides1;
     sides1.push_back(X1Y1);
-    sides1.push_back(X1Z1);
     sides1.push_back(Y1Z1);
+    sides1.push_back(Z1X1);
+
 
     Straight X2Y2(tringle2.pt1, calculate_guide_vector(tringle2.pt1, tringle2.pt2 ));
-    Straight X2Z2(tringle2.pt1, calculate_guide_vector(tringle2.pt1, tringle2.pt3 ));
     Straight Y2Z2(tringle2.pt2, calculate_guide_vector(tringle2.pt2, tringle2.pt3 ));
+    Straight Z2X2(tringle2.pt3, calculate_guide_vector(tringle2.pt3, tringle2.pt1 ));
 
     std:: vector<Straight> sides2;
     sides2.push_back(X2Y2);
-    sides2.push_back(X2Z2);
     sides2.push_back(Y2Z2);
+    sides2.push_back(Z2X2);
 
     for (int i = 0; i < sides1.size(); i++) {
         for (int j = 0; j < sides2.size(); j++) {
@@ -203,7 +204,7 @@ bool intersection_of_sides(const Tringle3D& tringle1, const Tringle3D& tringle2)
 
             if (!flag){
 
-                Point3D intersection = intersection_straights(sides2[j], sides2[i]);
+                Point3D intersection = intersection_straights(sides1[i], sides2[j]);
                 bool flag1 = intersection_check_of_sides(sides1[i], intersection);
                 bool flag2 = intersection_check_of_sides(sides2[j], intersection);
 

@@ -6,10 +6,12 @@ TEST(e2e_test, first_test) {
     Tringle3D tringle1(pt1, pt2, pt3, 1);
 
     Point3D pt1_2(0, 0, 0);Point3D pt2_2(3, 0, 0);Point3D pt3_2(3, -3, 0);
-    Tringle3D tringle2(pt1, pt2, pt3, 2);
+    Tringle3D tringle2(pt1_2, pt2_2, pt3_2, 2);
 
-    bool answer_correct = 1;
+    bool answer_correct = true;
     bool answer_expected = intersection_checking_tringles(tringle1, tringle2);
+
+    ASSERT_EQ(answer_correct, answer_expected) << "Test failed";
 }
 
 TEST(e2e_test, second_test) {
@@ -17,10 +19,12 @@ TEST(e2e_test, second_test) {
     Tringle3D tringle1(pt1, pt2, pt3, 1);
 
     Point3D pt1_2(-3, 0, 0);Point3D pt2_2(3, 3, 0);Point3D pt3_2(3, -3, 0);
-    Tringle3D tringle2(pt1, pt2, pt3, 2);
+    Tringle3D tringle2(pt1_2, pt2_2, pt3_2, 2);
 
-    bool answer_correct = 1;
+    bool answer_correct = true;
     bool answer_expected = intersection_checking_tringles(tringle1, tringle2);
+
+    ASSERT_EQ(answer_correct, answer_expected) << "Test failed";
 }
 
 TEST(e2e_test, thirth_test) {
@@ -28,10 +32,12 @@ TEST(e2e_test, thirth_test) {
     Tringle3D tringle1(pt1, pt2, pt3, 1);
 
     Point3D pt1_2(-1, -1, 0);Point3D pt2_2(-1, 3, 0);Point3D pt3_2(1, 3, 0);
-    Tringle3D tringle2(pt1, pt2, pt3, 2);
+    Tringle3D tringle2(pt1_2, pt2_2, pt3_2, 2);
 
-    bool answer_correct = 1;
+    bool answer_correct = true;
     bool answer_expected = intersection_checking_tringles(tringle1, tringle2);
+
+    ASSERT_EQ(answer_correct, answer_expected) << "Test failed";
 }
 
 TEST(e2e_test, fourth_test) {
@@ -39,10 +45,12 @@ TEST(e2e_test, fourth_test) {
     Tringle3D tringle1(pt1, pt2, pt3, 1);
 
     Point3D pt1_2(-2, 0, 0);Point3D pt2_2(-2, -3, 0);Point3D pt3_2(2, 0, 0);
-    Tringle3D tringle2(pt1, pt2, pt3, 2);
+    Tringle3D tringle2(pt1_2, pt2_2, pt3_2, 2);
 
-    bool answer_correct = 1;
+    bool answer_correct = true;
     bool answer_expected = intersection_checking_tringles(tringle1, tringle2);
+
+    ASSERT_EQ(answer_correct, answer_expected) << "Test failed";
 }
 
 TEST(e2e_test, fiveth_test) {
@@ -50,10 +58,12 @@ TEST(e2e_test, fiveth_test) {
     Tringle3D tringle1(pt1, pt2, pt3, 1);
 
     Point3D pt1_2(-3, 3, 0);Point3D pt2_2(3, 3, 0);Point3D pt3_2(-3, 0, 0);
-    Tringle3D tringle2(pt1, pt2, pt3, 2);
+    Tringle3D tringle2(pt1_2, pt2_2, pt3_2, 2);
 
-    bool answer_correct = 1;
+    bool answer_correct = true;
     bool answer_expected = intersection_checking_tringles(tringle1, tringle2);
+
+    ASSERT_EQ(answer_correct, answer_expected) << "Test failed";
 }
 
 TEST(e2e_test, sixth_test) {
@@ -61,10 +71,12 @@ TEST(e2e_test, sixth_test) {
     Tringle3D tringle1(pt1, pt2, pt3, 1);
 
     Point3D pt1_2(3, -3, 0);Point3D pt2_2(-3, -3, 0);Point3D pt3_2(-3, 1, 0);
-    Tringle3D tringle2(pt1, pt2, pt3, 2);
+    Tringle3D tringle2(pt1_2, pt2_2, pt3_2, 2);
 
-    bool answer_correct = 1;
+    bool answer_correct = true;
     bool answer_expected = intersection_checking_tringles(tringle1, tringle2);
+
+    ASSERT_EQ(answer_correct, answer_expected) << "Test failed";
 }
 
 TEST(e2e_test, seventh_test) {
@@ -72,10 +84,12 @@ TEST(e2e_test, seventh_test) {
     Tringle3D tringle1(pt1, pt2, pt3, 1);
 
     Point3D pt1_2(3, 2, 0);Point3D pt2_2(-2, -3, 0);Point3D pt3_2(-2, 2, 0);
-    Tringle3D tringle2(pt1, pt2, pt3, 2);
+    Tringle3D tringle2(pt1_2, pt2_2, pt3_2, 2);
 
-    bool answer_correct = 1;
+    bool answer_correct = true;
     bool answer_expected = intersection_checking_tringles(tringle1, tringle2);
+
+    ASSERT_EQ(answer_correct, answer_expected) << "Test failed";
 }
 
 TEST(e2e_test, eighth_test) {
@@ -83,10 +97,12 @@ TEST(e2e_test, eighth_test) {
     Tringle3D tringle1(pt1, pt2, pt3, 1);
 
     Point3D pt1_2(3, 0, 0);Point3D pt2_2(3, -3, 0);Point3D pt3_2(-2, 2, 0);
-    Tringle3D tringle2(pt1, pt2, pt3, 2);
+    Tringle3D tringle2(pt1_2, pt2_2, pt3_2, 2);
 
-    bool answer_correct = 1;
+    bool answer_correct = true;
     bool answer_expected = intersection_checking_tringles(tringle1, tringle2);
+
+    ASSERT_EQ(answer_correct, answer_expected) << "Test failed";
 }
 
 TEST(e2e_test, nineth_test) {
@@ -94,10 +110,12 @@ TEST(e2e_test, nineth_test) {
     Tringle3D tringle1(pt1, pt2, pt3, 1);
 
     Point3D pt1_2(0, 0, 0);Point3D pt2_2(-3, 0, 0);Point3D pt3_2(0, 3, 0);
-    Tringle3D tringle2(pt1, pt2, pt3, 2);
+    Tringle3D tringle2(pt1_2, pt2_2, pt3_2, 2);
 
-    bool answer_correct = 1;
+    bool answer_correct = true;
     bool answer_expected = intersection_checking_tringles(tringle1, tringle2);
+
+    ASSERT_EQ(answer_correct, answer_expected) << "Test failed";
 }
 
 TEST(e2e_test, tenth_test) {
@@ -105,10 +123,12 @@ TEST(e2e_test, tenth_test) {
     Tringle3D tringle1(pt1, pt2, pt3, 1);
 
     Point3D pt1_2(0, 2, 0);Point3D pt2_2(3, -3, 0);Point3D pt3_2(0, -3, 0);
-    Tringle3D tringle2(pt1, pt2, pt3, 2);
+    Tringle3D tringle2(pt1_2, pt2_2, pt3_2, 2);
 
-    bool answer_correct = 1;
+    bool answer_correct = true;
     bool answer_expected = intersection_checking_tringles(tringle1, tringle2);
+
+    ASSERT_EQ(answer_correct, answer_expected) << "Test failed";
 }
 
 TEST(e2e_test, eleventh_test) {
@@ -116,10 +136,12 @@ TEST(e2e_test, eleventh_test) {
     Tringle3D tringle1(pt1, pt2, pt3, 1);
 
     Point3D pt1_2(-3, 2, 0);Point3D pt2_2(0, 3, 0);Point3D pt3_2(0, -3, 0);
-    Tringle3D tringle2(pt1, pt2, pt3, 2);
+    Tringle3D tringle2(pt1_2, pt2_2, pt3_2, 2);
 
-    bool answer_correct = 1;
+    bool answer_correct = true;
     bool answer_expected = intersection_checking_tringles(tringle1, tringle2);
+
+    ASSERT_EQ(answer_correct, answer_expected) << "Test failed";
 }
 
 TEST(e2e_test, test_12) {
@@ -127,10 +149,12 @@ TEST(e2e_test, test_12) {
     Tringle3D tringle1(pt1, pt2, pt3, 1);
 
     Point3D pt1_2(3, 3, 0);Point3D pt2_2(0, 3, 0);Point3D pt3_2(3, 0, 0);
-    Tringle3D tringle2(pt1, pt2, pt3, 2);
+    Tringle3D tringle2(pt1_2, pt2_2, pt3_2, 2);
 
-    bool answer_correct = 1;
+    bool answer_correct = true;
     bool answer_expected = intersection_checking_tringles(tringle1, tringle2);
+
+    ASSERT_EQ(answer_correct, answer_expected) << "Test failed";
 }
 
 TEST(e2e_test, test_13) {
@@ -138,10 +162,12 @@ TEST(e2e_test, test_13) {
     Tringle3D tringle1(pt1, pt2, pt3, 1);
 
     Point3D pt1_2(3, 0, 0);Point3D pt2_2(3, -3, 0);Point3D pt3_2(0, -3, 0);
-    Tringle3D tringle2(pt1, pt2, pt3, 2);
+    Tringle3D tringle2(pt1_2, pt2_2, pt3_2, 2);
 
-    bool answer_correct = 0;
+    bool answer_correct = false;
     bool answer_expected = intersection_checking_tringles(tringle1, tringle2);
+
+    ASSERT_EQ(answer_correct, answer_expected) << "Test failed";
 }
 
 TEST(e2e_test, test_14) {
@@ -149,10 +175,12 @@ TEST(e2e_test, test_14) {
     Tringle3D tringle1(pt1, pt2, pt3, 1);
 
     Point3D pt1_2(0, 0, 1);Point3D pt2_2(2, 2, 0);Point3D pt3_2(-2, -2, 0);
-    Tringle3D tringle2(pt1, pt2, pt3, 2);
+    Tringle3D tringle2(pt1_2, pt2_2, pt3_2, 2);
 
-    bool answer_correct = 1;
+    bool answer_correct = true;
     bool answer_expected = intersection_checking_tringles(tringle1, tringle2);
+
+    ASSERT_EQ(answer_correct, answer_expected) << "Test failed";
 }
 
 TEST(e2e_test, test_15) {
@@ -160,10 +188,12 @@ TEST(e2e_test, test_15) {
     Tringle3D tringle1(pt1, pt2, pt3, 1);
 
     Point3D pt1_2(-1.55, 1.34, 0);Point3D pt2_2(-1.83, -1.42, 0);Point3D pt3_2(-2.54, 1.3, 2);
-    Tringle3D tringle2(pt1, pt2, pt3, 2);
+    Tringle3D tringle2(pt1_2, pt2_2, pt3_2, 2);
 
-    bool answer_correct = 0;
+    bool answer_correct = false;
     bool answer_expected = intersection_checking_tringles(tringle1, tringle2);
+
+    ASSERT_EQ(answer_correct, answer_expected) << "Test failed";
 }
 
 TEST(e2e_test, test_16) {
@@ -171,10 +201,12 @@ TEST(e2e_test, test_16) {
     Tringle3D tringle1(pt1, pt2, pt3, 1);
 
     Point3D pt1_2(-1, 1.78, 0);Point3D pt2_2(-1, -2.38, 0);Point3D pt3_2(-1, 0, 3);
-    Tringle3D tringle2(pt1, pt2, pt3, 2);
+    Tringle3D tringle2(pt1_2, pt2_2, pt3_2, 2);
 
-    bool answer_correct = 0;
+    bool answer_correct = false;
     bool answer_expected = intersection_checking_tringles(tringle1, tringle2);
+
+    ASSERT_EQ(answer_correct, answer_expected) << "Test failed";
 }
 
 TEST(e2e_test, test_17) {
@@ -182,10 +214,12 @@ TEST(e2e_test, test_17) {
     Tringle3D tringle1(pt1, pt2, pt3, 1);
 
     Point3D pt1_2(-85, -277, 871);Point3D pt2_2(670, -132, -661);Point3D pt3_2(-1000, 343, 585);
-    Tringle3D tringle2(pt1, pt2, pt3, 2);
+    Tringle3D tringle2(pt1_2, pt2_2, pt3_2, 2);
 
-    bool answer_correct = 0;
+    bool answer_correct = false;
     bool answer_expected = intersection_checking_tringles(tringle1, tringle2);
+
+    ASSERT_EQ(answer_correct, answer_expected) << "Test failed";
 }
 
 TEST(e2e_test, test_18) {
@@ -193,10 +227,12 @@ TEST(e2e_test, test_18) {
     Tringle3D tringle1(pt1, pt2, pt3, 1);
 
     Point3D pt1_2(-736, 370, -74);Point3D pt2_2(-538, -307, -478);Point3D pt3_2(341, -773, 903);
-    Tringle3D tringle2(pt1, pt2, pt3, 2);
+    Tringle3D tringle2(pt1_2, pt2_2, pt3_2, 2);
 
-    bool answer_correct = 0;
+    bool answer_correct = false;
     bool answer_expected = intersection_checking_tringles(tringle1, tringle2);
+
+    ASSERT_EQ(answer_correct, answer_expected) << "Test failed";
 }
 
 TEST(e2e_test, test_19) {
@@ -204,10 +240,25 @@ TEST(e2e_test, test_19) {
     Tringle3D tringle1(pt1, pt2, pt3, 1);
 
     Point3D pt1_2(644, 181, 138 );Point3D pt2_2(269, 679, 388);Point3D pt3_2(784, 669, 353);
-    Tringle3D tringle2(pt1, pt2, pt3, 2);
+    Tringle3D tringle2(pt1_2, pt2_2, pt3_2, 2);
 
-    bool answer_correct = 0;
+    bool answer_correct = false;
     bool answer_expected = intersection_checking_tringles(tringle1, tringle2);
+
+    ASSERT_EQ(answer_correct, answer_expected) << "Test failed";
+}
+
+TEST(e2e_test, test_20) {
+    Point3D pt1(-3, 3, 0);Point3D pt2(3, 3, 0);Point3D pt3(-3, -3, 0);
+    Tringle3D tringle1(pt1, pt2, pt3, 1);
+
+    Point3D pt1_2(0, 0, 0);Point3D pt2_2(-3, 0, 0);Point3D pt3_2(0, 3, 0);
+    Tringle3D tringle2(pt1_2, pt2_2, pt3_2, 2);
+
+    bool answer_correct = true;
+    bool answer_expected = intersection_checking_tringles(tringle1, tringle2);
+
+    ASSERT_EQ(answer_correct, answer_expected) << "Test failed";
 }
 
 
