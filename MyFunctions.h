@@ -160,22 +160,38 @@ Point3D intersection_straights(const Straight& side1, const Straight& side2) {
     return intersection;
 }
 
-bool intersection_check_of_sides(const Straight& side1, const Point3D& intersection){
-    Point3D point1(side1.guide_vector.x + side1.pt.x, side1.guide_vector.y + side1.pt.y, side1.guide_vector.z + side1.pt.z);
-    Line_segment segment1(side1.pt, point1);
+bool intersection_check_of_sides(const Straight& side, const Point3D& intersection){
+    Point3D point1(side.guide_vector.x + side.pt.x, side.guide_vector.y + side.pt.y, side.guide_vector.z + side.pt.z);
+    Line_segment segment(side.pt, point1);
 
-    bool flag = false;
+    if (((intersection.x == segment.A.x) && (intersection.y == segment.A.y) && (intersection.z == segment.A.z)) ||
+        ((intersection.x == segment.B.x) && (intersection.y == segment.B.y) && (intersection.z == segment.B.z))) {
 
-    if ((segment1.A.x <= intersection.x && segment1.A.y <= intersection.y && segment1.A.z <= intersection.z) &&
-        (intersection.x <= segment1.B.x && intersection.y <= segment1.B.y && intersection.z <= segment1.B.z)){
-        flag = true;
-    }
-    if ((segment1.B.x <= intersection.x && segment1.B.y <= intersection.y && segment1.B.z <= intersection.z) &&
-        (intersection.x <= segment1.A.x && intersection.y <= segment1.A.y && intersection.z <= segment1.A.z)){
-        flag = true;
+        return true;
     }
 
-    return flag;
+    Point3D min(0, 0 ,0);
+    min.x = std::min(segment.A.x, segment.B.x);
+    min.y = std::min(segment.A.y, segment.B.y);
+    min.z = std::min(segment.A.z, segment.B.z);
+
+    Point3D max(0, 0, 0);
+    max.x = std::max(segment.A.x, segment.B.x);
+    max.y = std::max(segment.A.y, segment.B.y);
+    max.z = std::max(segment.A.z, segment.B.z);
+
+    if ((min.x <= intersection.x && intersection.x <= max.x) && (min.y <= intersection.y && intersection.y <= max.y)
+        && (min.z <= intersection.z && intersection.z <= max.z)){
+        Straight straight(intersection, calculate_guide_vector(intersection, segment.A));
+        bool flag = checking_parallelism_of_segments(side, straight);
+
+        if (flag){
+            return true;
+        }
+    }
+
+
+    return false;
 }
 
 

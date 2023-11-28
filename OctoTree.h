@@ -41,17 +41,17 @@ public:
             createChild(node, index);
         }
 
-        if ((node->children[index]->min.x < tringle.pt1.x <node->children[index]-> max.x) &&
-            (node->children[index]->min.x < tringle.pt2.x < node->children[index]->max.x) &&
-            (node->children[index]->min.x < tringle.pt3.x < node->children[index]->max.x) &&
+        if ((node->children[index]->min.x < tringle.pt1.x && tringle.pt1.x < node->children[index]-> max.x) &&
+            (node->children[index]->min.x < tringle.pt2.x && tringle.pt2.x < node->children[index]->max.x) &&
+            (node->children[index]->min.x < tringle.pt3.x && tringle.pt3.x < node->children[index]->max.x) &&
 
-            (node->children[index]->min.y < tringle.pt1.y < node->children[index]->max.y) &&
-            (node->children[index]->min.y < tringle.pt2.y < node->children[index]->max.y) &&
-            (node->children[index]->min.y < tringle.pt3.y < node->children[index]->max.y) &&
+            (node->children[index]->min.y < tringle.pt1.y && tringle.pt1.y < node->children[index]->max.y) &&
+            (node->children[index]->min.y < tringle.pt2.y && tringle.pt2.y < node->children[index]->max.y) &&
+            (node->children[index]->min.y < tringle.pt3.y && tringle.pt3.y < node->children[index]->max.y) &&
 
-            (node->children[index]->min.z < tringle.pt1.z < node->children[index]->max.z) &&
-            (node->children[index]->min.z < tringle.pt2.z < node->children[index]->max.z) &&
-            (node->children[index]->min.z < tringle.pt3.z < node->children[index]->max.y)) {
+            (node->children[index]->min.z < tringle.pt1.z && tringle.pt1.z < node->children[index]->max.z) &&
+            (node->children[index]->min.z < tringle.pt2.z && tringle.pt2.z < node->children[index]->max.z) &&
+            (node->children[index]->min.z < tringle.pt3.z && tringle.pt3.z < node->children[index]->max.y)) {
 
             insert(node->children[index], tringle, depth + 1);
         }
