@@ -128,7 +128,7 @@ bool checking_parallelism_of_segments(const Straight& side1, const Straight& sid
     return (corner == 0.0 || corner == M_PI);
 }
 
-Point3D intersection_straights(const Straight& side2, const Straight& side1) {
+Point3D intersection_straights(const Straight& side1, const Straight& side2) {
     double t = 0;
 
     if (side1.guide_vector.x * side2.guide_vector.y != side1.guide_vector.y * side2.guide_vector.x) {
@@ -136,21 +136,21 @@ Point3D intersection_straights(const Straight& side2, const Straight& side1) {
          double y = side2.pt.y - side1.pt.y;
          double det = side1.guide_vector.x * side2.guide_vector.y - side1.guide_vector.y * side2.guide_vector.x;
 
-         t = (side2.guide_vector.y * x - side1.guide_vector.y * y) / det;
+         t = (side2.guide_vector.y * x - side2.guide_vector.x * y) / det;
     }
     else if (side1.guide_vector.x * side2.guide_vector.z != side1.guide_vector.z * side2.guide_vector.x) {
         double x = side2.pt.x - side1.pt.x;
         double z = side2.pt.z - side1.pt.z;
         double det = side1.guide_vector.x * side2.guide_vector.z - side1.guide_vector.z * side2.guide_vector.x;
 
-        t = (side2.guide_vector.z * x - side1.guide_vector.z * z) / det;
+        t = (side2.guide_vector.z * x - side2.guide_vector.x * z) / det;
     }
     else {
         double y = side2.pt.y - side1.pt.y;
         double z = side2.pt.z - side1.pt.z;
         double det = side1.guide_vector.y * side2.guide_vector.z - side1.guide_vector.z * side2.guide_vector.y;
 
-        t = (side2.guide_vector.z * y - side1.guide_vector.z * z) / det;
+        t = (side2.guide_vector.z * y - side2.guide_vector.y * z) / det;
     }
 
     Point3D intersection(side1.pt.x + t * side1.guide_vector.x,
@@ -165,6 +165,7 @@ bool intersection_check_of_sides(const Straight& side1, const Point3D& intersect
     Line_segment segment1(side1.pt, point1);
 
     bool flag = false;
+
     if ((segment1.A.x <= intersection.x && segment1.A.y <= intersection.y && segment1.A.z <= intersection.z) &&
         (intersection.x <= segment1.B.x && intersection.y <= segment1.B.y && intersection.z <= segment1.B.z)){
         flag = true;
