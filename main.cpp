@@ -42,8 +42,6 @@ int main() {
     }
 
     octree.print(amount);
-    bool flag = intersection_checking_tringles(tringles[0], tringles[1]);
-    std:: cout << flag;
 }
 
 

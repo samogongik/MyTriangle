@@ -3,7 +3,7 @@
 #include <unordered_map>
 #include "MyFunctions.h"
 
-class Octree {
+class Octree final {
 public:
     friend bool intersection_checking(const Tringle3D& tringle1, const Tringle3D& tringle2);
     Octree(Point3D min, Point3D max, int maxDepth): maxDepth(maxDepth) {
@@ -37,22 +37,13 @@ public:
         }
 
         int index = getOctant(node, tringle);
+
+        bool flag = false;
         if (node->children[index] == nullptr) {
-            createChild(node, index);
+           flag = createChild(node, index, tringle);
         }
 
-        if ((node->children[index]->min.x < tringle.pt1.x && tringle.pt1.x < node->children[index]-> max.x) &&
-            (node->children[index]->min.x < tringle.pt2.x && tringle.pt2.x < node->children[index]->max.x) &&
-            (node->children[index]->min.x < tringle.pt3.x && tringle.pt3.x < node->children[index]->max.x) &&
-
-            (node->children[index]->min.y < tringle.pt1.y && tringle.pt1.y < node->children[index]->max.y) &&
-            (node->children[index]->min.y < tringle.pt2.y && tringle.pt2.y < node->children[index]->max.y) &&
-            (node->children[index]->min.y < tringle.pt3.y && tringle.pt3.y < node->children[index]->max.y) &&
-
-            (node->children[index]->min.z < tringle.pt1.z && tringle.pt1.z < node->children[index]->max.z) &&
-            (node->children[index]->min.z < tringle.pt2.z && tringle.pt2.z < node->children[index]->max.z) &&
-            (node->children[index]->min.z < tringle.pt3.z && tringle.pt3.z < node->children[index]->max.y)) {
-
+        if (flag){
             insert(node->children[index], tringle, depth + 1);
         }
         else {
@@ -64,9 +55,9 @@ public:
 
     int getOctant(OctreeNode* node, Tringle3D tringle){
         int index = 0;
-        float xMid = (node->min.x + node->max.x) / 2.0f;
-        float yMid = (node->min.y + node->max.y) / 2.0f;
-        float zMid = (node->min.z + node->max.z) / 2.0f;
+        double xMid = (node->min.x + node->max.x) / 2.0f;
+        double yMid = (node->min.y + node->max.y) / 2.0f;
+        double zMid = (node->min.z + node->max.z) / 2.0f;
 
         if (tringle.pt1.x > xMid && tringle.pt2.x > xMid && tringle.pt3.x > xMid) index |= 1;
         if (tringle.pt1.y > yMid && tringle.pt2.y > yMid && tringle.pt3.y > yMid) index |= 2;
@@ -75,12 +66,12 @@ public:
         return index;
     }
 
-    void createChild(OctreeNode* node, int index) {
+    bool createChild(OctreeNode* node, int index, const Tringle3D& tringle) {
         Point3D min = node->min;
         Point3D max = node->max;
-        float xMid = (min.x + max.x) / 2.0f;
-        float yMid = (min.y + max.y) / 2.0f;
-        float zMid = (min.z + max.z) / 2.0f;
+        double xMid = (min.x + max.x) / 2.0f;
+        double yMid = (min.y + max.y) / 2.0f;
+        double zMid = (min.z + max.z) / 2.0f;
 
         if (index & 1) min.x = xMid;
         else max.x = xMid;
@@ -89,8 +80,26 @@ public:
         if (index & 4) min.z = zMid;
         else max.z = zMid;
 
+        if ((node->min.x < tringle.pt1.x && tringle.pt1.x < node->max.x) &&
+            (node->min.x < tringle.pt2.x && tringle.pt2.x < node->max.x) &&
+            (node->min.x < tringle.pt3.x && tringle.pt3.x < node->max.x) &&
 
-        node->children[index] = new OctreeNode(min, max);
+            (node->min.y < tringle.pt1.y && tringle.pt1.y < node->max.y) &&
+            (node->min.y < tringle.pt2.y && tringle.pt2.y < node->max.y) &&
+            (node->min.y < tringle.pt3.y && tringle.pt3.y < node->max.y) &&
+
+            (node->min.z < tringle.pt1.z && tringle.pt1.z < node->max.z) &&
+            (node->min.z < tringle.pt2.z && tringle.pt2.z < node->max.z) &&
+            (node->min.z < tringle.pt3.z && tringle.pt3.z < node->max.y)) {
+
+            node->children[index] = new OctreeNode(min, max);
+            return true;
+        }
+        else {
+            return false;
+        }
+
+
     }
 
     void destroy(OctreeNode* node) {
