@@ -35,13 +35,15 @@ int main() {
         Tringle3D tringle(points[0], points[1], points[2], i);
         tringles.push_back(tringle);
     }
-
-    Octree octree(min, max, 8);
-    for(int i = 1; i <= amount; i++){
-        octree.insert(tringles[i-1]);
-    }
-
-    octree.print(amount);
+//
+//    Octree octree(min, max, 8);
+//    for(int i = 1; i <= amount; i++){
+//        octree.insert(tringles[i-1]);
+//    }
+//
+//    octree.print(amount);
+    bool flag = intersection_checking_tringles(tringles[0], tringles[1]);
+    std:: cout << flag;
 }
 
 

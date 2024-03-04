@@ -308,10 +308,42 @@ Straight find_for_straight_intersection_of_planes(const Plane& plane1, const Pla
     return straight_intersection;
 }
 
+
+bool pointBelongsToSegment(const Point3D& point, const Point3D& segmentStart, const Point3D& segmentEnd) {
+    double dxc = point.x - segmentStart.x;
+    double dyc = point.y - segmentStart.y;
+    double dzc = point.z - segmentStart.z;
+
+    double dxl = segmentEnd.x - segmentStart.x;
+    double dyl = segmentEnd.y - segmentStart.y;
+    double dzl = segmentEnd.z - segmentStart.z;
+
+    double crossX = dyc * dzl - dzc * dyl;
+    double crossY = dzc * dxl - dxc * dzl;
+    double crossZ = dxc * dyl - dyc * dxl;
+
+    if (fabs(crossX) > 0.0001 || fabs(crossY) > 0.0001 || fabs(crossZ) > 0.0001) {
+        return false;
+    }
+
+    double dot = dxl * dxc + dyl * dyc + dzl * dzc;
+    if (dot < 0) {
+        return false;
+    }
+
+    double squareLength = dxl * dxl + dyl * dyl + dzl * dzl;
+    if (dot > squareLength) {
+        return false;
+    }
+
+    return true;
+}
+
+
 bool intersection_checking_straight_with_tringles(const Tringle3D& tringle1, const Tringle3D& tringle2, const Straight straight_intersection){
     Straight X1Y1(tringle1.pt1, calculate_guide_vector(tringle1.pt1, tringle1.pt2 ));
-    Straight X1Z1(tringle1.pt1, calculate_guide_vector(tringle1.pt1, tringle1.pt3 ));
-    Straight Y1Z1(tringle1.pt1, calculate_guide_vector(tringle1.pt2, tringle1.pt3 ));
+    Straight X1Z1(tringle1.pt2, calculate_guide_vector(tringle1.pt2, tringle1.pt3 ));
+    Straight Y1Z1(tringle1.pt3, calculate_guide_vector(tringle1.pt3, tringle1.pt1 ));
 
     std::vector<Straight> sides1;
     sides1.push_back(X1Y1);
@@ -319,8 +351,8 @@ bool intersection_checking_straight_with_tringles(const Tringle3D& tringle1, con
     sides1.push_back(Y1Z1);
 
     Straight X2Y2(tringle2.pt1, calculate_guide_vector(tringle2.pt1, tringle2.pt2 ));
-    Straight X2Z2(tringle2.pt1, calculate_guide_vector(tringle2.pt1, tringle2.pt3 ));
-    Straight Y2Z2(tringle2.pt1, calculate_guide_vector(tringle2.pt2, tringle2.pt3 ));
+    Straight X2Z2(tringle2.pt2, calculate_guide_vector(tringle2.pt2, tringle2.pt3 ));
+    Straight Y2Z2(tringle2.pt3, calculate_guide_vector(tringle2.pt3, tringle2.pt1 ));
 
     std:: vector<Straight> sides2;
     sides2.push_back(X2Y2);
@@ -336,6 +368,14 @@ bool intersection_checking_straight_with_tringles(const Tringle3D& tringle1, con
             Point3D intersection = intersection_straights(sides1[i], straight_intersection);
             if (intersection_check_of_sides(sides1[i], intersection)){
                 flag1 = tringle_and_point(tringle2, intersection);
+                if (!flag1){
+                    for (int j = 0; j < sides2.size(); j++){
+                        flag1 = pointBelongsToSegment(intersection, sides2[j].pt, sides2[j].pt + sides2[j].guide_vector);
+                        if (flag1){
+                            break;
+                        }
+                    }
+                }
             }
         }
 
@@ -343,6 +383,14 @@ bool intersection_checking_straight_with_tringles(const Tringle3D& tringle1, con
         if (!flag){
             Point3D intersection = intersection_straights(sides2[i], straight_intersection);
              flag2 = tringle_and_point(tringle1, intersection);
+            if (!flag2){
+                for (int j = 0; j < sides1.size(); j++){
+                    flag2 = pointBelongsToSegment(intersection, sides1[j].pt, sides1[j].pt + sides1[j].guide_vector);
+                    if (flag2){
+                        break;
+                    }
+                }
+            }
         }
 
         if (flag1 || flag2){

@@ -2,8 +2,17 @@
 #include<vector>
 struct Point3D{
     double x, y, z;
-
+    Point3D() = default;
     Point3D(double x, double y, double z): x(x), y(y), z(z){}
+    Point3D operator+(const Point3D& rhs){
+        Point3D result;
+        result.x = (*this).x + rhs.x;
+        result.y = (*this).y + rhs.y;
+        result.z = (*this).z + rhs.z;
+
+        return result;
+
+    }
 };
 
 struct Straight{
