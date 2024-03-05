@@ -36,18 +36,13 @@ int main() {
         tringles.push_back(tringle);
     }
 
-//    Octree octree(min, max, 8);
-//    for(int i = 0; i < amount; i++){
-//
-//        octree.insert(tringles[i]);
-//    }
-//
-//    octree.print(amount);
+    Octree octree(min, max, 8);
+    for(int i = 0; i < amount; i++){
 
-    bool flag = intersection_checking_tringles(tringles[0], tringles[1]);
-    std:: cout << flag;
+        octree.insert(tringles[i]);
+    }
+
+    octree.print(amount);
 }
-
-
 
 

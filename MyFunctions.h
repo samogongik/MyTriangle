@@ -250,14 +250,18 @@ int check_sign(const Point3D& normal1, const Point3D& normal2) {
     double length1 = sqrt(normal1.x * normal1.x + normal1.y * normal1.y + normal1.z * normal1.z);
     double length2 = sqrt(normal2.x * normal2.x + normal2.y * normal2.y + normal2.z * normal2.z);
     double scalar_product = normal1.x * normal2.x + normal1.y * normal2.y + normal1.z * normal2.z;
-    double epsilon = 0.0001;
+    double epsilon = 0.000001;
     if (length1 < epsilon || length2 < epsilon){
         return 0;
     }
-    double corner = acos(scalar_product / (length2 * length1));
+    double cos_corner = scalar_product / (length2 * length1);
+    if (cos_corner > 1){
+        return 0;
+    }
+    double corner = acos(cos_corner);
 
     if (corner < epsilon) {
-        return 1;
+        return 0;
     }
 
     if (M_PI - corner < epsilon) {
@@ -301,21 +305,22 @@ Straight find_for_straight_intersection_of_planes(const Plane& plane1, const Pla
 
     Point3D guide_vector = crossProduct(vector_norm1, vector_norm2);
     double x,y,z;
+    double epsilon = 0.0001;
 
-    if (plane1.A * plane2.B - plane2.A * plane1.B != 0) {
+    if (fabs(plane1.A * plane2.B - plane2.A * plane1.B) > epsilon) {
         double denominator = plane1.A * plane2.B - plane2.A * plane1.B;
          x = (plane1.B * plane2.D - plane1.D * plane2.B) / denominator;
          y = (plane2.A * plane1.D - plane2.D * plane1.A) / denominator;
          z = 0;
     }
-    else if (plane2.C * plane1.B - plane1.C * plane2.B != 0) {
-        double denominator = plane2.C * plane1.B - plane1.C * plane2.B != 0;
+    else if (fabs(plane2.C * plane1.B - plane1.C * plane2.B) > epsilon) {
+        double denominator = plane2.C * plane1.B - plane1.C * plane2.B;
         x = 0;
         y = (plane1.C * plane2.D - plane1.D * plane2.C) / denominator;
         z = (plane2.B * plane1.D - plane2.D * plane1.B) / denominator;
     }
     else {
-        double denominator = plane2.C * plane1.A - plane1.C * plane2.A != 0;
+        double denominator = plane2.C * plane1.A - plane1.C * plane2.A;
         x = (plane1.C * plane2.D - plane1.D * plane2.C) / denominator;
         y = 0;
         z = (plane2.A * plane1.D - plane2.D * plane1.A) / denominator;
