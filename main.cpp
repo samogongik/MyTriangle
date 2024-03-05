@@ -13,7 +13,7 @@ int main() {
     Point3D max(0, 0, 0);
     std::vector<Tringle3D> tringles;
 
-    for (int i = 1; i <= amount; i++){
+    for (int i = 0; i < amount; i++){
         std::vector<Point3D> points;
         for(int j = 0; j < 3; j++) {
             double x,y,z;
@@ -35,13 +35,15 @@ int main() {
         Tringle3D tringle(points[0], points[1], points[2], i);
         tringles.push_back(tringle);
     }
-//
+
 //    Octree octree(min, max, 8);
-//    for(int i = 1; i <= amount; i++){
-//        octree.insert(tringles[i-1]);
+//    for(int i = 0; i < amount; i++){
+//
+//        octree.insert(tringles[i]);
 //    }
 //
 //    octree.print(amount);
+
     bool flag = intersection_checking_tringles(tringles[0], tringles[1]);
     std:: cout << flag;
 }

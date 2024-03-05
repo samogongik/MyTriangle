@@ -36,8 +36,8 @@ bool plane_parallel(const Plane& plane1, const Plane& plane2){
 
     double scalar_product = plane1.A * plane2.A + plane1.B * plane2.B + plane1.C * plane2.C;
     double corner = std::acos(scalar_product);
-
-    if (corner == 0.0 || corner == M_PI) {
+    double epsilon = 0.000001;
+    if (corner < epsilon ||  M_PI - corner < epsilon) {
         return true;
     }
     else {
@@ -120,7 +120,8 @@ bool checking_parallelism_of_segments(const Straight& side1, const Straight& sid
                             + side1.guide_vector.z * side2.guide_vector.z;
 
     double cos_corner = scalar_product / (length1 * length2);
-    if (fabs(fabs(cos_corner) - 1) < 0.0001) {
+    double epsilon = 0.0001;
+    if (fabs(fabs(cos_corner) - 1) < epsilon) {
         cos_corner = 1;
     }
     double corner = std::acos(cos_corner);
@@ -249,18 +250,20 @@ int check_sign(const Point3D& normal1, const Point3D& normal2) {
     double length1 = sqrt(normal1.x * normal1.x + normal1.y * normal1.y + normal1.z * normal1.z);
     double length2 = sqrt(normal2.x * normal2.x + normal2.y * normal2.y + normal2.z * normal2.z);
     double scalar_product = normal1.x * normal2.x + normal1.y * normal2.y + normal1.z * normal2.z;
-    if (length1 == 0 || length2 == 0){
+    double epsilon = 0.0001;
+    if (length1 < epsilon || length2 < epsilon){
         return 0;
     }
     double corner = acos(scalar_product / (length2 * length1));
 
-    if (corner == 0) {
+    if (corner < epsilon) {
         return 1;
     }
 
-    if (corner == M_PI) {
+    if (M_PI - corner < epsilon) {
         return -1;
     }
+    return 0;
 
 }
 bool tringle_and_point(const Tringle3D& tringle, const Point3D& point){
@@ -297,10 +300,26 @@ Straight find_for_straight_intersection_of_planes(const Plane& plane1, const Pla
     Point3D vector_norm2(plane2.A, plane2.B, plane2.C);
 
     Point3D guide_vector = crossProduct(vector_norm1, vector_norm2);
+    double x,y,z;
 
-    double x = (plane1.B * plane2.D - plane1.D * plane2.B) / (plane1.A * plane2.B - plane2.A * plane1.B);
-    double y = (plane2.A * plane1.D - plane2.D * plane1.A) / (plane1.A * plane2.B - plane2.A * plane1.B);
-    double z = 0;
+    if (plane1.A * plane2.B - plane2.A * plane1.B != 0) {
+        double denominator = plane1.A * plane2.B - plane2.A * plane1.B;
+         x = (plane1.B * plane2.D - plane1.D * plane2.B) / denominator;
+         y = (plane2.A * plane1.D - plane2.D * plane1.A) / denominator;
+         z = 0;
+    }
+    else if (plane2.C * plane1.B - plane1.C * plane2.B != 0) {
+        double denominator = plane2.C * plane1.B - plane1.C * plane2.B != 0;
+        x = 0;
+        y = (plane1.C * plane2.D - plane1.D * plane2.C) / denominator;
+        z = (plane2.B * plane1.D - plane2.D * plane1.B) / denominator;
+    }
+    else {
+        double denominator = plane2.C * plane1.A - plane1.C * plane2.A != 0;
+        x = (plane1.C * plane2.D - plane1.D * plane2.C) / denominator;
+        y = 0;
+        z = (plane2.A * plane1.D - plane2.D * plane1.A) / denominator;
+    }
 
     Point3D point(x, y, z);
     Straight straight_intersection(point, guide_vector);

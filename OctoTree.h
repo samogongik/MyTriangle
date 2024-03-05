@@ -90,7 +90,7 @@ public:
 
             (node->min.z < tringle.pt1.z && tringle.pt1.z < node->max.z) &&
             (node->min.z < tringle.pt2.z && tringle.pt2.z < node->max.z) &&
-            (node->min.z < tringle.pt3.z && tringle.pt3.z < node->max.y)) {
+            (node->min.z < tringle.pt3.z && tringle.pt3.z < node->max.z)) {
 
             node->children[index] = new OctreeNode(min, max);
             return true;
@@ -113,7 +113,7 @@ public:
     }
 
     void print(int amount){
-        for(int i = 1; i <= amount; i++){
+        for(int i = 0; i < amount; i++){
             if (data.find(i) != data.end()) {
                 std::cout << i << " ";
             }
