@@ -122,6 +122,16 @@ public:
         std::cout << std::endl;
         return;
     }
+    std::vector<int> get_answer (const int& amount){
+        std::vector<int> answer;
+        answer.reserve(amount);
+        for (int i = 0; i < amount; i++){
+            if (data.find(i) != data.end()){
+                answer.push_back(i);
+            }
+        }
+        return answer;
+    }
 
 private:
     int maxDepth;

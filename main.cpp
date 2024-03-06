@@ -9,8 +9,10 @@ int main() {
     std::cin >> amount;
     assert(std::cin.good());
 
-    Point3D min(0, 0, 0);
-    Point3D max(0, 0, 0);
+     int min_int = -2147483648;
+     int max_int = 2147483647;
+    Point3D min(max_int, max_int, max_int);
+    Point3D max(min_int, min_int, min_int);
     std::vector<Tringle3D> tringles;
 
     for (int i = 0; i < amount; i++){
@@ -26,7 +28,7 @@ int main() {
 
             if (max.x < x) {max.x = x;}
             if (max.y < y) {max.y = y;}
-            if (max.z < x) {max.z = x;}
+            if (max.z < z) {max.z = z;}
 
             Point3D point(x, y, z);
             points.push_back(point);
@@ -43,6 +45,7 @@ int main() {
     }
 
     octree.print(amount);
+
 }
 
 
