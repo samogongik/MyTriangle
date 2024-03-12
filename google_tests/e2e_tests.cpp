@@ -128,7 +128,7 @@ TEST(e2e_test, test_6) {
     octree.insert(tringle3);
 
     std::vector<int> answer_correct = {0, 1};
-    std::vector<int> answer_expected = octree.get_answer(2);
+    std::vector<int> answer_expected = octree.get_answer(3);
 
     ASSERT_EQ(answer_correct, answer_expected) << "Test failed";
 }
@@ -249,6 +249,30 @@ TEST(e2e_test, test_10) {
 
     std::vector<int> answer_correct = {2, 3};
     std::vector<int> answer_expected = octree.get_answer(5);
+
+    ASSERT_EQ(answer_correct, answer_expected) << "Test failed";
+}
+
+TEST(e2e_test, test_11) {
+    Point3D pt1(0, 0, 0);Point3D pt2(1, 0, 0);Point3D pt3(0, 1, 0);
+    Tringle3D tringle1(pt1, pt2, pt3, 0);
+
+    Point3D pt1_2(5, 5, 5);Point3D pt2_2(5, 5, 5);Point3D pt3_2(5, 5, 5);
+    Tringle3D tringle2(pt1_2, pt2_2, pt3_2, 1);
+
+    Point3D pt1_3(0, 0.5, -0.5);Point3D pt2_3(0, 0.5, 0.5);Point3D pt3_3(-1, 0, 0);
+    Tringle3D tringle3(pt1_3, pt2_3, pt3_3, 2);
+
+    Point3D min(-1, 0, -0.5);
+    Point3D max(5, 5, 5);
+    Octree octree(min, max, 4);
+
+    octree.insert(tringle1);
+    octree.insert(tringle2);
+    octree.insert(tringle3);
+
+    std::vector<int> answer_correct = {0, 2};
+    std::vector<int> answer_expected = octree.get_answer(3);
 
     ASSERT_EQ(answer_correct, answer_expected) << "Test failed";
 }

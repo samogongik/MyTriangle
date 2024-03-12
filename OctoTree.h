@@ -115,7 +115,7 @@ public:
     void print(int amount){
         for(int i = 0; i < amount; i++){
             if (data.find(i) != data.end()) {
-                std::cout << i << " ";
+                std::cout << i << " " << std::endl;
             }
         }
 

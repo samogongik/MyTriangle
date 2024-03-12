@@ -13,9 +13,11 @@ Plane calculate_plane(const Tringle3D& tringle){
     double C = v1.x * v2.y - v1.y * v2.x;
 
     double length = std::sqrt(A*A + B*B + C*C);
-    A = A / length;
-    B = B / length;
-    C = C / length;
+    if (length > 0) {
+        A = A / length;
+        B = B / length;
+        C = C / length;
+    }
 
     double D = -A * tringle.pt1.x - B * tringle.pt1.y - C * tringle.pt1.z;
 
@@ -133,11 +135,11 @@ Point3D intersection_straights(const Straight& side1, const Straight& side2) {
     double t = 0;
 
     if (side1.guide_vector.x * side2.guide_vector.y != side1.guide_vector.y * side2.guide_vector.x) {
-         double x = side2.pt.x - side1.pt.x;
-         double y = side2.pt.y - side1.pt.y;
-         double det = side1.guide_vector.x * side2.guide_vector.y - side1.guide_vector.y * side2.guide_vector.x;
+        double x = side2.pt.x - side1.pt.x;
+        double y = side2.pt.y - side1.pt.y;
+        double det = side1.guide_vector.x * side2.guide_vector.y - side1.guide_vector.y * side2.guide_vector.x;
 
-         t = (side2.guide_vector.y * x - side2.guide_vector.x * y) / det;
+        t = (side2.guide_vector.y * x - side2.guide_vector.x * y) / det;
     }
     else if (side1.guide_vector.x * side2.guide_vector.z != side1.guide_vector.z * side2.guide_vector.x) {
         double x = side2.pt.x - side1.pt.x;
@@ -258,6 +260,7 @@ int check_sign(const Point3D& normal1, const Point3D& normal2) {
     if (cos_corner > 1){
         return 0;
     }
+
     double corner = acos(cos_corner);
 
     if (corner < epsilon) {
@@ -309,9 +312,9 @@ Straight find_for_straight_intersection_of_planes(const Plane& plane1, const Pla
 
     if (fabs(plane1.A * plane2.B - plane2.A * plane1.B) > epsilon) {
         double denominator = plane1.A * plane2.B - plane2.A * plane1.B;
-         x = (plane1.B * plane2.D - plane1.D * plane2.B) / denominator;
-         y = (plane2.A * plane1.D - plane2.D * plane1.A) / denominator;
-         z = 0;
+        x = (plane1.B * plane2.D - plane1.D * plane2.B) / denominator;
+        y = (plane2.A * plane1.D - plane2.D * plane1.A) / denominator;
+        z = 0;
     }
     else if (fabs(plane2.C * plane1.B - plane1.C * plane2.B) > epsilon) {
         double denominator = plane2.C * plane1.B - plane1.C * plane2.B;
@@ -403,10 +406,10 @@ bool intersection_checking_straight_with_tringles(const Tringle3D& tringle1, con
             }
         }
 
-             flag = checking_parallelism_of_segments(sides2[i], straight_intersection);
+        flag = checking_parallelism_of_segments(sides2[i], straight_intersection);
         if (!flag){
             Point3D intersection = intersection_straights(sides2[i], straight_intersection);
-             flag2 = tringle_and_point(tringle1, intersection);
+            flag2 = tringle_and_point(tringle1, intersection);
             if (!flag2){
                 for (int j = 0; j < sides1.size(); j++){
                     flag2 = pointBelongsToSegment(intersection, sides1[j].pt, sides1[j].pt + sides1[j].guide_vector);
@@ -425,9 +428,21 @@ bool intersection_checking_straight_with_tringles(const Tringle3D& tringle1, con
     return false;
 }
 
+bool check_normal_vector(const Plane& plane){
+    double normal_vector = plane.A * plane.A + plane.B * plane.B + plane.C * plane.C;
+    if (normal_vector > 0){
+        return true;
+    }
+    else return false;
+}
+
 bool intersection_checking_tringles(const Tringle3D& tringle1, const Tringle3D& tringle2){
     Plane plane1 = calculate_plane(tringle1);
     Plane plane2 = calculate_plane(tringle2);
+
+    if (!check_normal_vector(plane1) || !check_normal_vector(plane2)) {
+        return false;
+    }
 
     bool answer = coinciding_planes(plane1, tringle2);
 
@@ -457,7 +472,7 @@ bool intersection_checking_tringles(const Tringle3D& tringle1, const Tringle3D& 
         if (flag){
             return true;
         }
-        else return false;
     }
 
+    return false;
 }
