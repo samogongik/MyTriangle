@@ -37,6 +37,11 @@ bool coinciding_planes(const Plane& plane, const Tringle3D& tringle){
 bool plane_parallel(const Plane& plane1, const Plane& plane2){
 
     double scalar_product = plane1.A * plane2.A + plane1.B * plane2.B + plane1.C * plane2.C;
+
+    if (scalar_product > 1 || scalar_product < -1){
+        return true;
+    }
+
     double corner = std::acos(scalar_product);
     double epsilon = 0.000001;
     if (corner < epsilon ||  M_PI - corner < epsilon) {

@@ -277,6 +277,30 @@ TEST(e2e_test, test_11) {
     ASSERT_EQ(answer_correct, answer_expected) << "Test failed";
 }
 
+TEST(e2e_test, test_12) {
+    Point3D pt1(0, 0, 0);Point3D pt2(1, 2, 3);Point3D pt3(0, 1, 1);
+    Tringle3D tringle1(pt1, pt2, pt3, 0);
+
+    Point3D pt1_2(50, 50, 50);Point3D pt2_2(51, 52, 53);Point3D pt3_2(50, 51, 51);
+    Tringle3D tringle2(pt1_2, pt2_2, pt3_2, 1);
+
+    Point3D pt1_3(0, 0, 0);Point3D pt2_3(1, 2, 3);Point3D pt3_3(0, 1, 1);
+    Tringle3D tringle3(pt1_3, pt2_3, pt3_3, 2);
+
+    Point3D min(0, 0, 0);
+    Point3D max(51, 52, 53);
+    Octree octree(min, max, 4);
+
+    octree.insert(tringle1);
+    octree.insert(tringle2);
+    octree.insert(tringle3);
+
+    std::vector<int> answer_correct = {0, 2};
+    std::vector<int> answer_expected = octree.get_answer(3);
+
+    ASSERT_EQ(answer_correct, answer_expected) << "Test failed";
+}
+
 
 
 
